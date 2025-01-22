@@ -18,43 +18,51 @@ fetch("https://striveschool-api.herokuapp.com/books")
                             <div class="card-body">
                                 <h5 class="card-title">${books.title}</h5>
                                 <p class="card-text">${books.price}€</p>
-                                <a href="#" class="btn btn-primary add">Compra</a>
-                                <button type="button" class="btn btn-primary remove">Scarta</button>
                             </div>
                         </div>`;
       row.appendChild(div);
 
-      let remove = document.querySelectorAll(".remove");
-      let addCart = document.querySelectorAll(".add");
+      let addCart = document.createElement("div");
+      addCart.innerHTML = `<button type="button" class="btn btn-primary">Aggiungi al Carrello</button>`;
 
+      let removeCard = document.createElement("div");
+      removeCard.innerHTML = `<button type="button" class="btn btn-primary">Rimuovi</button>`;
+
+      let cardBody = document.querySelectorAll(".card-body");
+
+      cardBody.forEach((element) => {
+        element.appendChild(addCart);
+        element.appendChild(removeCard);
+      });
       let cart = document.querySelector(".cart");
 
-      addCart.forEach((element) => {
-        element.addEventListener("click", () => {
-          let divParent = element.parentElement;
-          let card = divParent.parentElement;
-          let cartItem = document.createElement("div");
+      addCart.addEventListener("click", () => {
+        let cartItem = document.createElement("div");
+        cartItem.innerHTML = `<div class="card cardCart col">
+                            <div class="card-body">
+                                <h5 class="card-title">${books.title}</h5>
+                                <p class="card-text">${books.price}€</p>
+                            </div>
+                        </div>`;
+        let removeCart = document.createElement("div");
+        removeCart.innerHTML = `<button type="button" class="btn btn-primary">Rimuovi dal carrello</button>`;
+        cartItem.appendChild(removeCart);
+        cart.appendChild(cartItem);
 
-          sessionStorage.setItem("card", card.innerHTML);
-
-          let getCartItem = sessionStorage.getItem("card");
-          cartItem.innerHTML = getCartItem;
-
-          cart.appendChild(cartItem);
+        removeCart.addEventListener("click", () => {
+          cartItem.remove();
         });
       });
 
-      remove.forEach((element) => {
-        element.addEventListener("click", () => {
-          let divParent = element.parentElement;
-          let card = divParent.parentElement;
-
-          if (div.classList.contains("cartItem")) {
-            row.appendChild(card);
-          } else {
-            card.remove();
-          }
-        });
+      removeCard.addEventListener("click", () => {
+        let cardRemover = removeCard.closest(".card");
+        cardRemover.remove();
       });
+
+      let cartItem = document.createElement("div");
+      let getCartItem = sessionStorage.getItem("card");
+      cartItem.innerHTML = getCartItem;
+
+      cart.appendChild(cartItem);
     });
   });
