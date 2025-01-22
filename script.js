@@ -38,12 +38,13 @@ fetch("https://striveschool-api.herokuapp.com/books")
 
       addCart.addEventListener("click", () => {
         let cartItem = document.createElement("div");
-        cartItem.innerHTML = `<div class="card cardCart col">
-                            <div class="card-body">
-                                <h5 class="card-title">${books.title}</h5>
-                                <p class="card-text">${books.price}€</p>
-                            </div>
-                        </div>`;
+        cartItem.innerHTML = `<div class="card cardCart">
+                                <div class="card-body">
+                                    <h5 class="card-title">${books.title}</h5>
+                                    <p class="card-text">${books.price}€</p>
+                                </div>
+                            </div>`;
+
         let removeCart = document.createElement("div");
         removeCart.innerHTML = `<button type="button" class="btn btn-primary">Rimuovi dal carrello</button>`;
         cartItem.appendChild(removeCart);
@@ -58,11 +59,5 @@ fetch("https://striveschool-api.herokuapp.com/books")
         let cardRemover = removeCard.closest(".card");
         cardRemover.remove();
       });
-
-      let cartItem = document.createElement("div");
-      let getCartItem = sessionStorage.getItem("card");
-      cartItem.innerHTML = getCartItem;
-
-      cart.appendChild(cartItem);
     });
   });
